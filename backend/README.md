@@ -29,7 +29,7 @@ This model represents the statistics for a particular company and year. The fiel
 
 - `company_name` (str): The name of the company.
 - `internship_ppo` (Optional[int]): Number of internship PPOs (Pre-Placement Offers).
-- `salary` (float): The salary offered by the company.
+- `salary` (Optional[float]): The salary offered by the company.
 - `CSE` (Optional[int]): Number of offers for CSE branch.
 - `CSBS` (Optional[int]): Number of offers for CSBS branch.
 - `CYS` (Optional[int]): Number of offers for CYS branch.

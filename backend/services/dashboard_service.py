@@ -128,21 +128,27 @@ async def getCompanyStatsData(filters: dict):
     return processedData
 
 # Adds bulk Company Stats Data at a time
-async def enterCompanyStatsData(data_list : list[CompanyStatsModel]):
+async def enterCompanyStatsData(data_list: list[CompanyStatsModel]):
     if not data_list:
-        return{"error":"No data provided!"}
-    insertedIds=[]
+        return {"error": "No data provided!"}
+    insertedIds = []
     for data in data_list:
-        unqId=str(uuid.uuid4())
-        entryDict=data.model_dump()
+        entryDict = data.model_dump()
+        cleanedData = {k: v for k, v in entryDict.items() if v is not None}
+        if "internship_ppo" not in cleanedData and "salary" not in cleanedData:
+            continue
+        unqId = str(uuid.uuid4())
         await asyncio.to_thread(
             company_stats_collection.add,
-            documents=[str(entryDict)],
-            metadatas=[entryDict],
+            documents=[str(cleanedData)],
+            metadatas=[cleanedData],
             ids=[unqId]
         )
         insertedIds.append(unqId)
-    return {"message":"All data added successfully!","ids":insertedIds}
+    if not insertedIds:
+        return {"error": "No valid records were inserted!"}
+    return {"message": "All data added successfully!", "ids": insertedIds}
+
 
 # Adds a single Company Stats Data
 async def addCompanyStatsData(data: CompanyStatsModel):

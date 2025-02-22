@@ -25,7 +25,7 @@ class PlacementStatsModel(BaseModel):
 class CompanyStatsModel(BaseModel):
     company_name: str
     internship_ppo: Optional[int] = None
-    salary: float
+    salary: Optional[float] = None
     CSE: Optional[int] = 0
     CSBS: Optional[int] = 0
     CYS: Optional[int] = 0
